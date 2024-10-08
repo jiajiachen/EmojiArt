@@ -21,6 +21,7 @@
 		4A6EA2702CAFCA1E0064FC06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6EA26F2CAFCA1E0064FC06 /* Assets.xcassets */; };
 		4A6EA2732CAFCA1E0064FC06 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A6EA2722CAFCA1E0064FC06 /* Preview Assets.xcassets */; };
 		4A6EA27A2CB00BCF0064FC06 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6EA2792CB00BCE0064FC06 /* EmojiArt.swift */; };
+		4AEC5DE12CB5596100FE6C1C /* PaletteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEC5DE02CB5596100FE6C1C /* PaletteManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		4A6EA26F2CAFCA1E0064FC06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A6EA2722CAFCA1E0064FC06 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4A6EA2792CB00BCE0064FC06 /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
+		4AEC5DE02CB5596100FE6C1C /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				4A4E5E6E2CB40F2300627E09 /* PaletteEditor.swift */,
 				4A1CF3472CB2383F0028399B /* PaletteChooser.swift */,
 				4A4E5E702CB41CF200627E09 /* PaletteList.swift */,
+				4AEC5DE02CB5596100FE6C1C /* PaletteManager.swift */,
 				4A1CF3432CB231C10028399B /* Palette.swift */,
 				4A1CF3452CB2335F0028399B /* PaletteStore.swift */,
 				4A6EA26D2CAFCA170064FC06 /* ContentView.swift */,
@@ -167,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4AEC5DE12CB5596100FE6C1C /* PaletteManager.swift in Sources */,
 				4A1CF3422CB0FB030028399B /* Sturldata.swift in Sources */,
 				4A1487F22CB0144800996524 /* EmojiArtDocumentView.swift in Sources */,
 				4A1487F42CB0156500996524 /* Extensions.swift in Sources */,

@@ -8,46 +8,44 @@
 import SwiftUI
 
 struct EditablePaletteList: View {
-    @EnvironmentObject var store: PaletteStore
+    @ObservedObject var store: PaletteStore
     
     @State private var showCursorPalette = false
     
     var body: some View {
-        NavigationStack {
-            List {
-                ForEach(store.palettes) { palette in
-                    NavigationLink(value: palette) {
-                        VStack(alignment: .leading) {
-                            Text(palette.name)
-                            Text(palette.emojis).lineLimit(1)
-                            
-                        }
-                    }
-                }.onDelete { indexSet in
-                    withAnimation {
-                        store.palettes.remove(atOffsets: indexSet)
+        List {
+            ForEach(store.palettes) { palette in
+                NavigationLink(value: palette.id) {
+                    VStack(alignment: .leading) {
+                        Text(palette.name)
+                        Text(palette.emojis).lineLimit(1)
+                        
                     }
                 }
-                .onMove { indexSet, newOffset in
-                    store.palettes.move(fromOffsets: indexSet, toOffset: newOffset)
+            }.onDelete { indexSet in
+                withAnimation {
+                    store.palettes.remove(atOffsets: indexSet)
                 }
             }
-            .navigationDestination(for: Palette.self) { palette in
-                if let index = store.palettes.firstIndex(where: { $0.id == palette.id }) {
-                    PaletteEditor(palette: $store.palettes[index])
-                }
+            .onMove { indexSet, newOffset in
+                store.palettes.move(fromOffsets: indexSet, toOffset: newOffset)
             }
-            .navigationDestination(isPresented: $showCursorPalette) {
-                PaletteEditor(palette: $store.palettes[store.cursorIndex])
+        }
+        .navigationDestination(for: Palette.ID.self) { paletteId in
+            if let index = store.palettes.firstIndex(where: { $0.id == paletteId }) {
+                PaletteEditor(palette: $store.palettes[index])
             }
-            .navigationTitle("\(store.name) Palettes")
-            .toolbar {
-                Button {
-                    store.insert(name: "", emojis: "")
-                    showCursorPalette = true
-                } label: {
-                    Image(systemName: "plus")
-                }
+        }
+        .navigationDestination(isPresented: $showCursorPalette) {
+            PaletteEditor(palette: $store.palettes[store.cursorIndex])
+        }
+        .navigationTitle("\(store.name) Palettes")
+        .toolbar {
+            Button {
+                store.insert(name: "", emojis: "")
+                showCursorPalette = true
+            } label: {
+                Image(systemName: "plus")
             }
         }
     }
