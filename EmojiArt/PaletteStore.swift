@@ -5,7 +5,7 @@
 //  Created by Kelly Chen on 2024/10/6.
 //
 
-import Foundation
+import SwiftUI
 
 extension UserDefaults {
     func palettes(forKey key: String) -> [Palette] {
@@ -64,6 +64,20 @@ class PaletteStore: ObservableObject, Identifiable {
             if palettes.isEmpty {
                 palettes = [Palette(name: "Warning", emojis: "⚠️")]
             }
+        }
+        observer = NotificationCenter.default.addObserver(
+            forName: UserDefaults.didChangeNotification,
+            object: nil,
+            queue: .main) { [weak self] notification in
+                self?.objectWillChange.send()
+            }
+    }
+    
+    @State private var observer: NSObjectProtocol?
+    
+    deinit {
+        if let observer {
+            NotificationCenter.default.removeObserver(observer)
         }
     }
     

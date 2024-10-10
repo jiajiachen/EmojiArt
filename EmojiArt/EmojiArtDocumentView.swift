@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct EmojiArtDocumentView: View {
+    @Environment(\.undoManager) var undoManager
+    
+    @StateObject var paletteStore = PaletteStore(named: "Shared")
+    
     typealias Emoji = EmojiArt.Emoji
     
     @ObservedObject var document: EmojiArtDocument
     
-    private let paletteEmojiSize: CGFloat = 40
+    @ScaledMetric var paletteEmojiSize: CGFloat = 40
     
     var body: some View {
         VStack(spacing: 0) {
@@ -22,7 +26,10 @@ struct EmojiArtDocumentView: View {
                 .padding(.horizontal)
                 .scrollIndicators(.hidden)
         }
-        
+        .toolbar {
+            UndoButton()
+        }
+        .environmentObject(paletteStore)
     }
     
     private var documentBody: some View {
@@ -46,11 +53,17 @@ struct EmojiArtDocumentView: View {
             .dropDestination(for: Sturldata.self) { sturldatas, location in
                 return drop(sturldatas, at: location, in: geometry)
             }
-            .onChange(of: document.background.failureReason) { reason in
-                showBackgroundFailureAlert = reason != nil
+//            .onChange(of: document.background.failureReason) { reason in
+//                showBackgroundFailureAlert = reason != nil
+//            }
+            .onChange(of: document.background.failureReason) { oldState, newState in
+                showBackgroundFailureAlert = newState != nil
             }
-            .onChange(of: document.background.uiImage) { uiImage in
-                zoomToFit(uiImage?.size, in: geometry)
+//            .onChange(of: document.background.uiImage) { uiImage in
+//                zoomToFit(uiImage?.size, in: geometry)
+//            }
+            .onChange(of: document.background.uiImage) { oldState, newState in
+                zoomToFit(newState?.size, in: geometry)
             }
             .alert("Set Background",
                    isPresented: $showBackgroundFailureAlert,
@@ -143,13 +156,14 @@ struct EmojiArtDocumentView: View {
         for sturldata in sturldatas {
             switch sturldata {
             case .url(let url):
-                document.setBackground(url)
+                document.setBackground(url, undoWith: undoManager)
                 return true
             case .string(let emoji):
                 document.addEmoji(
                     emoji,
                     at: emojiPosition(at: location, in: geometry),
-                    size: paletteEmojiSize / zoom
+                    size: paletteEmojiSize / zoom,
+                    undoWith: undoManager
                 )
                 return true
             default:
